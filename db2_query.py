@@ -17,9 +17,10 @@ def get_connection_string():
     username = os.getenv('DB2_USERNAME', '').strip()
     password = os.getenv('DB2_PASSWORD', '').strip()
 
-    # IBM i Access ODBC connection string - using exact driver path
-    #conn_str = f"DRIVER=/opt/ibm/iaccess/lib64/libcwbodbc.so;SYSTEM={host};PORT={port};DATABASE={database};UID={username};PWD={password};NAMING=1;TRANSLATE=1;"
-    conn_str = f"DSN=DB2I;SYSTEM={host};PORT={port};UID={username};PWD={password};"
+    # IBM i Access ODBC connection string - using DSN
+    # Note, instead of the DSN, you could use "DRIVER=/opt/ibm/iaccess/lib64/libcwbodbc.so;"
+    # except may get an error message saying "Key value in connection string too long. (30119)"
+    conn_str = f"DSN=DB2I;SYSTEM={host};SYSTEM={host};PORT={port};DATABASE={database};UID={username};PWD={password};NAMING=1;TRANSLATE=1;"
 
     return conn_str
 
@@ -35,7 +36,7 @@ def execute_query(query, show_connection_info=False):
             print(f"Connection string: {safe_conn_str}")
             print("-" * 50)
 
-        print("Connecting to DB2 for i...")
+        print("Starting connection to DB2 for i...")
         conn = pyodbc.connect(conn_str)
 
         print("✓ Connected successfully!")
