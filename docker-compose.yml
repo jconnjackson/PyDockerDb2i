@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db2-query:
+    build: .
+    environment:
+      - DB2_HOST=${DB2_HOST:-your-db2-host}
+      - DB2_PORT=${DB2_PORT:-50000}
+      - DB2_DATABASE=${DB2_DATABASE:-your-database}
+      - DB2_USERNAME=${DB2_USERNAME:-your-username}
+      - DB2_PASSWORD=${DB2_PASSWORD:-your-password}
+      - DB2_SCHEMA=${DB2_SCHEMA:-your-schema}
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
