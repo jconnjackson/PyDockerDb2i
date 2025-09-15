@@ -11,14 +11,15 @@ load_dotenv()
 
 def get_connection_string():
     """Build ODBC connection string from environment variables"""
-    host = os.getenv('DB2_HOST', '')
-    port = os.getenv('DB2_PORT', '446')
-    database = os.getenv('DB2_DATABASE', '')
-    username = os.getenv('DB2_USERNAME', '')
-    password = os.getenv('DB2_PASSWORD', '')
+    host = os.getenv('DB2_HOST', '').strip()
+    port = os.getenv('DB2_PORT', '446').strip()
+    database = os.getenv('DB2_DATABASE', '').strip()
+    username = os.getenv('DB2_USERNAME', '').strip()
+    password = os.getenv('DB2_PASSWORD', '').strip()
 
     # IBM i Access ODBC connection string - using exact driver path
-    conn_str = f"DRIVER=/opt/ibm/iaccess/lib64/libcwbodbc.so;SYSTEM={host};PORT={port};DATABASE={database};UID={username};PWD={password};NAMING=1;TRANSLATE=1;"
+    #conn_str = f"DRIVER=/opt/ibm/iaccess/lib64/libcwbodbc.so;SYSTEM={host};PORT={port};DATABASE={database};UID={username};PWD={password};NAMING=1;TRANSLATE=1;"
+    conn_str = f"DSN=DB2I;SYSTEM={host};PORT={port};UID={username};PWD={password};"
 
     return conn_str
 
@@ -76,7 +77,7 @@ def execute_query(query, show_connection_info=False):
 def main():
     parser = argparse.ArgumentParser(description='DB2 for i Query Tool')
     parser.add_argument('--query', '-q', type=str,
-                        default="SELECT * FROM QSYS2.SYSCHEMAS FETCH FIRST 5 ROWS ONLY",
+                        default="SELECT * FROM QSYS2.SYSSCHEMAS FETCH FIRST 5 ROWS ONLY",
                         help='SQL query to execute')
     parser.add_argument('--show-connection', '-c', action='store_true',
                         help='Show connection information')
