@@ -5,7 +5,7 @@ services:
     build: .
     environment:
       - DB2_HOST=${DB2_HOST:-your-db2-host}
-      - DB2_PORT=${DB2_PORT:-50000}
+      - DB2_PORT=${DB2_PORT:446}
       - DB2_DATABASE=${DB2_DATABASE:-your-database}
       - DB2_USERNAME=${DB2_USERNAME:-your-username}
       - DB2_PASSWORD=${DB2_PASSWORD:-your-password}
