@@ -10,13 +10,6 @@ A simple Docker-based tool for connecting to IBM DB2 for i (AS/400) and executin
    ```
 
 2. **Edit `.env` with your DB2 connection details:**
-   ```bash
-   DB2_HOST=your-db2-host.com
-   DB2_PORT=50000
-   DB2_DATABASE=your-database
-   DB2_USERNAME=your-username
-   DB2_PASSWORD=your-password
-   ```
 
 3. **Build and run:**
    ```bash
@@ -41,7 +34,7 @@ docker run --env-file .env db2-query python db2_query.py --query "SELECT * FROM 
 docker run --env-file .env db2-query python db2_query.py --show-connection
 ```
 
-### Using Docker Compose
+### Using Docker Compose (after editing docker-compose.yml file)
 ```bash
 # Run with docker-compose
 docker-compose run db2-query
@@ -56,14 +49,14 @@ docker-compose run db2-query python db2_query.py --query "SELECT CURRENT_TIMESTA
 docker run -it --env-file .env db2-query bash
 
 # Then inside the container:
-python db2_query.py --query "SELECT * FROM QSYS2.SYSTABLES WHERE TABLE_SCHEMA='MYSCHEMA' FETCH FIRST 5 ROWS ONLY"
+python db2_query.py --query "SELECT TABLE_NAME FROM QSYS2.SYSTABLES WHERE TABLE_SCHEMA='QSYS2' FETCH FIRST 5 ROWS ONLY"
 ```
 
 ## Configuration
 
 ### Environment Variables
 - `DB2_HOST` - DB2 server hostname/IP
-- `DB2_PORT` - Port (usually 50000)
+- `DB2_PORT` - Port (usually 50000 or 446)
 - `DB2_DATABASE` - Database name
 - `DB2_USERNAME` - Username for authentication
 - `DB2_PASSWORD` - Password for authentication
@@ -78,7 +71,7 @@ python db2_query.py --query "SELECT * FROM QSYS2.SYSTABLES WHERE TABLE_SCHEMA='M
 
 ```sql
 -- List all schemas
-SELECT * FROM QSYS2.SYSCHEMAS FETCH FIRST 10 ROWS ONLY
+SELECT * FROM QSYS2.SYSSCHEMAS FETCH FIRST 10 ROWS ONLY
 
 -- List tables in a schema
 SELECT * FROM QSYS2.SYSTABLES WHERE TABLE_SCHEMA='MYSCHEMA'
@@ -93,16 +86,19 @@ SELECT * FROM TABLE(QSYS2.ACTIVE_JOB_INFO()) FETCH FIRST 10 ROWS ONLY
 ## Project Structure
 ```
 .
-├── Dockerfile          # Container definition
-├── requirements.txt    # Python dependencies
+├── README.md          # This file
+├── Dockerfile         # Container definition
+├── requirements.txt   # Python dependencies
 ├── db2_query.py       # Main application script
 ├── .env.template      # Environment template
 ├── docker-compose.yml # Docker Compose configuration
-└── README.md          # This file
+├── odbc.ini           # Refers to odbcinst.ini to define the Data Source Names (DSNs)
+├── odbcinst.ini       # Defines drivers available to Open DataBase Connectivity for System
+└── ibm-iaccess-1.1.0.28-1.0.amd64 # From https://public.dhe.ibm.com/software/ibmi/products/odbc/debs/dists/1.1.0/main/binary-amd64/ibm-iaccess-1.1.0.28-1.0.amd64.deb
 ```
 
 ## Notes
-- Uses `ibm-db` Python driver for DB2 connectivity
+- Uses `pyodbc` Python driver with the `ibm-iaccess` debian package for DB2 connectivity
 - Supports both environment variables and .env files
 - Minimalistic design focused on query execution
 - Connection credentials are never displayed in logs (password masked)
