@@ -1,6 +1,7 @@
 # DB2 for i Docker Query Tool
 
-A simple Docker-based tool for connecting to IBM DB2 for i (AS/400) and executing SQL queries.
+A simple Docker-based tool for connecting to IBM DB2 for i (sometimes called an "AS/400") and executing SQL queries.
+Meant to be used as boiler code for projects that require this.
 
 ## Quick Start
 
@@ -94,7 +95,8 @@ SELECT * FROM TABLE(QSYS2.ACTIVE_JOB_INFO()) FETCH FIRST 10 ROWS ONLY
 ├── docker-compose.yml # Docker Compose configuration
 ├── odbc.ini           # Refers to odbcinst.ini to define the Data Source Names (DSNs)
 ├── odbcinst.ini       # Defines drivers available to Open DataBase Connectivity for System
-└── ibm-iaccess-1.1.0.28-1.0.amd64 # From https://public.dhe.ibm.com/software/ibmi/products/odbc/debs/dists/1.1.0/main/binary-amd64/ibm-iaccess-1.1.0.28-1.0.amd64.deb
+└── ibm-iaccess-1.1.0.28-1.0.amd64 # From:
+                       # https://public.dhe.ibm.com/software/ibmi/products/odbc/debs/dists/1.1.0/main/binary-amd64/
 ```
 
 ## Notes
