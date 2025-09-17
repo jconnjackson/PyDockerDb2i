@@ -1,7 +1,11 @@
-# DB2 for i Docker Query Tool
+# PyDockerDb2i
 
-A simple Docker-based tool for connecting to IBM DB2 for i (sometimes called an "AS/400") and executing SQL queries.
-Meant to be used as boiler code for projects that require this.
+___Python + Docker + DB2 for i___
+
+Boilerplate code that for creating containerized applications using Python that must connect to DB2 for IBM System i
+
+Supports running queries from the command line out of the box and can be used either for starting new projects or
+as example code to show how these three technologies can be combined
 
 ## Quick Start
 
@@ -98,10 +102,3 @@ SELECT * FROM TABLE(QSYS2.ACTIVE_JOB_INFO()) FETCH FIRST 10 ROWS ONLY
 └── ibm-iaccess-1.1.0.28-1.0.amd64 # From:
                        # https://public.dhe.ibm.com/software/ibmi/products/odbc/debs/dists/1.1.0/main/binary-amd64/
 ```
-
-## Notes
-- Uses `pyodbc` Python driver with the `ibm-iaccess` debian package for DB2 connectivity
-- Supports both environment variables and .env files
-- Minimalistic design focused on query execution
-- Connection credentials are never displayed in logs (password masked)
-- Built on Python 3.12 slim image for smaller footprint
