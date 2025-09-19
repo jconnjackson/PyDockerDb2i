@@ -15,9 +15,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy the IBM i Access ODBC driver package
+# From: https://public.dhe.ibm.com/software/ibmi/products/odbc/debs/dists/1.1.0/main/binary-amd64/
 COPY ibm-iaccess-1.1.0.28-1.0.amd64.deb /tmp/
 
 # Install IBM i Access ODBC driver
+# See also: https://ibmi-oss-docs.readthedocs.io/en/latest/odbc/installation.html#linux
 RUN dpkg -i /tmp/ibm-iaccess-1.1.0.28-1.0.amd64.deb || true && \
     apt-get update && \
     apt-get -f install -y && \
